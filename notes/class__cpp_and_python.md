@@ -1,11 +1,10 @@
 Python中的类没有公有与私有的概念，但是C++中有。
 
-（Python中若要将方法标记为私有，一般采用在函数名称前添加下划线的方法）
-
-eg.
-
 ```Python
-class Human(object):
+# 要分清类跟实例的区别……
+# 实例和类在py和cpp中都有概念
+class Human(object): # 在py3中不写父类（连着括号都不写）就默认继承自object
+    # class Human: 就像这样，跟上一行等价。但py2就不是这样，但我不学。
     a = 0 # 类属性
     def __init__(self):
         # 实例属性，与类属性同名的话会把类属性屏蔽掉
@@ -36,6 +35,8 @@ class Student(Human): # Python 中像这样继承，要继承多个的话就在�
 ```
 
 ```c++
+// 实例和对象其实是一码事
+// 在C++中一般叫对象，Python中叫实例
 class Human{
     public: // 公有
         void set(int new_value); // 可以只声明不定义
@@ -60,13 +61,22 @@ class Student: public Human{
     // C++ 中像这样继承，继承多个就用逗号分隔
     // 此处的 public 表示继承方式，不写默认是 private
     // public 继承：父类的成员属性都保持不变
-    // private 继承：父类的成员全部变成private
-    // protected 继承：父类的public成员变成protected，其余不变
+    // private 继承：父类的全部成员的属性变成 private
+    // protected 继承：父类的 public 成员的属性变成 protected，其余不变
+    // 个人理解：优先级 private > protected > public，限制程度逐渐减小
     public:
+        int a;
         // 当成员函数的名字与类的名字相同时，相当于Python的 __init__()
-        void Student(void){}
+        void Student(void){
+            this->a = 114514;
+            // this 类似于 Python 中的 self，平时是隐式传入的
+            // this 是个指针，指向实例（或者说对象）自己
+            // 因为`x->y`是`(*x).y`的简写，所以`->`运算符也可用于对象。
+        }
         // 用static定义静态成员函数，相当于Python中的 @staticmethod
         static void handle(void){}
 }
+// 像这样调用静态成员函数，静态成员函数内部不能使用 this
+Student::handle();
 ```
 
