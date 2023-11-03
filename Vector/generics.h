@@ -10,13 +10,17 @@
 #define UNDEFINED_GTYPE_SIZE 0
 
 /*
+实现了一个泛型变量
+*/
+
+/*
 便于导出泛型变量的值的宏函数
-type 为将要导出为的类型
+`type`为将要导出为的类型
 */
 #define extrcGvar(gvar, type) (*((type*)(gvar->data)))
 /*
 便于生成字面量的指针的宏函数
-type 为这个字面量的类型
+`type`为这个字面量的类型
 */
 #define literalPtr(var, type) (&(type){var})
 
@@ -39,13 +43,13 @@ struct GenericsVar_ {
 typedef struct GenericsVar_ GenericsVar;
 
 /*
-将 GenericsType 转换为对应类型的大小
+将`GenericsType`转换为对应类型的大小
 */
 size_t _gtype_to_size(GenericsType type);
 
 /*
 创建一个泛型变量
-如果 data 字段为空指针则不初始化值
+如果`data`参数为空指针则不初始化值
 如果创建失败则返回空指针
 */
 GenericsVar* create_gvar(GenericsType type, void* data);
@@ -65,7 +69,6 @@ bool change_gtype(GenericsVar* var, GenericsType new_type);
 /*
 改变一个泛型变量的内容
 请确保二者的类型是相同的
-Tip: `&(int){n}` 更简便哦 (n 为一个字面量)
 */
 void change_gvar(GenericsVar* var, void* new_data);
 
