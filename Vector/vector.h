@@ -1,108 +1,127 @@
 #ifndef VECTOR_H_
 #define VECTOR_H_
 
-#include "generics.h"
-#include "linkedlist.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
-// #define DEFAULT_VECTOR_CAPACITY 1024
-
-// #define VectorFullError -1
-#define VectorPushBackFailure -2
-#define VectorTmpVarCreateFailure -3
-
-/* 一个使用链表实现的向量
- *
- * 运行时可能会比较慢, 相较于用动态数组实现的向量
- * 没有显式设定容量上限, 应该是 int 类型的上限?
-**/
-struct Vector_ {
-    Link* _linkedlist_head; // 数据存放
-    int size;               // 当前大小
-    GenericsType elem_type; // 内容物类型
-    // int capacity;
-};
-
-typedef struct Vector_ Vector;
+#define DEFAULT_VECTOR_CAPACITY 1024
 
 /*
-创建一个长度为 0 的新向量
-返回指向它的指针
+便于导出`void*`的值的宏函数
+`ptr` 为`void*`类型指针
+`type`为将要导出为的类型
 */
-Vector* create_vector(GenericsType elem_type);
+#define extrcVoidptr(ptr, type) (*((type*)(ptr)))
 
 /*
-销毁一个向量
+便于生成字面量的指针的宏函数
+`type`为这个字面量的类型
+*/
+#define literalPtr(var, type) (&(type){var})
+
+/*
+用于打印 Vector 的宏函数
+`vec`是将要被打印的 Vector
+`elem_type`是 Vector 的内容物的类型 eg.`int`
+`specifier`是每个数据的格式化标识符 eg.`"%d"`
+`sep`是每个元素间的间隔字符, 传入空字符则没有间隔 eg.`-`
+`end`是打印完成后的结束字符, 传入空字符则表示没有结束符 eg,`\n`
+*/
+#define print_vector(vec, elem_type, specifier, sep, end) { \
+    for(size_t i=0; i<vec->size; i++){ \
+        if(i!=0 && sep) putchar(sep); \
+        printf(specifier, extrcVoidptr(vec->data[i], elem_type)); \
+    } \
+    if(end) putchar(end); \
+}
+
+/*
+一个泛型的 Vector
+使用者需要记住自己存进去的是何种数据,
+来对得到的`void*`指针进行转换
+但 Vector 只需要知道单个数据的大小
+~~蒸馍, 你不扶器?~~
+
+注意`size`当前有效长度 与 `capacity`容量上限 的区别
+>=size 且 <capacity 的索引对应的值可能为垃圾值
+*/
+typedef struct Vector {
+    void** data;
+    size_t size;
+    size_t capacity;
+    size_t elem_size;
+} Vector;
+
+/*
+创建一个 Vector, 返回指向它的指针
+`capacity`是容量上限
+`size`是要进行初始化的长度, 不得超过`capacity`
+`elem_size`是单个数据的大小
+`elem_data`是用于初始化的值的指针
+创建失败返回`NULL`
+*/
+Vector* create_vector(size_t size, size_t capacity, size_t elem_size, void* elem_data);
+
+/*
+销毁一个 Vector
 */
 void destroy_vector(Vector* vec);
 
 /*
-将一个新元素添加到向量末尾
-返回操作后向量的长度
-返回值为负数时表示出错
+调整 Vector 的容量上限
+若新的容量上限<当前有效长度, 超出的部分将会被截断
 */
-int push_back_vector(Vector* vec, void* new_item_data);
+Vector* resize_vector(Vector* vec, size_t new_capacity);
 
 /*
-打印一个向量
-`sep`是分隔符, 传入空字符表示不分隔
-`end`是结束符, 同上
+取出 Vector 末尾的一个元素
+返回一个新分配的`void*`指针, 注意用完销毁
 */
-void print_vector(const Vector* vec, char sep, char end);
+void* pop_back_vector(Vector* vec);
 
 /*
-取出向量的第`index+1`个元素
-后方的元素向前补位
+删除 Vector 末尾的一个元素
 */
-GenericsVar* pop_item_vector(Vector* vec, int index);
+void del_back_vector(Vector* vec);
 
 /*
-取出向量的最后一个元素
-
-Based on `pop_item_vector`
+获得 Vector 的第`index+1`个元素
+返回一个新分配的`void*`指针, 注意用完销毁
 */
-GenericsVar* pop_back_vector(Vector* vec);
+void* at_vector(const Vector* vec, size_t index);
 
 /*
-获得向量的第`index+1`个元素
-`is_copy`表示返回的指针是否为拷贝
+为 Vector 的第`index+1`个元素赋一个新值
+传入的`index`必须在 Vector 的有效长度内
 */
-GenericsVar* at_vector(const Vector* vec, int index, bool is_copy);
+void set_vector(Vector* vec, size_t index, void* new_data);
 
 /*
-为向量的第`index+1`个元素指定一个新值
+在 Vector 的末尾添加一个元素
 */
-void set_vector(Vector* vec, int index, void* new_data);
+void push_back_vector(Vector* vec, void* new_data);
 
 /*
-批量添加新元素到向量末尾
-返回操作后的向量长度
-
-Based on `push_back_vector`
+获取 Vector 的当前有效长度
 */
-int push_back_batch_vector(Vector* vec, void* new_item_data, int count);
+size_t vector_size(const Vector* vec);
 
 /*
-删除向量的第`index+1`个元素
-后方的元素向前补位
-
-Based on `pop_item_vector` 
+获取 Vector 的容量上限
 */
-void del_item_vector(Vector* vec, int index);
-
-/*获取向量的当前长度*/
-int vector_size(const Vector* vec);
+size_t vector_capacity(const Vector* vec);
 
 /*
-获取向量的内容物类型
-返回一个`GenericsType`
+获取 Vector 的单个元素大小
 */
-GenericsType vector_type(const Vector* vec);
+size_t vector_elemsize(const Vector* vec);
 
 /*
-获取向量的内部链表的头指针
-注意, 随意修改可能会导致 Vector 不正常工作
-还是建议只使用提供的函数进行操作……
+获取 Vector 的内部的动态数组的指针
+随意修改会影响到 Vector 的正常工作
 */
-Link* vector_inner_linklist(const Vector* vec);
+void** vector_data(const Vector* vec);
 
 #endif

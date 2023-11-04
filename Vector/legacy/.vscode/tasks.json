@@ -8,6 +8,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+                "${fileDirname}\\generics.c",
+                "${fileDirname}\\linkedlist.c",
                 "${fileDirname}\\vector.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"

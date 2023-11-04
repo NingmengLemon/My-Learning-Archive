@@ -1,47 +1,38 @@
 #include "vector.h"
-#include "generics.h"
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
 #include <assert.h>
 
-void test(void){
-    GenericsVar* tmp = NULL;
-    // 整型 Vector 测试
-    Vector* vec = create_vector(INT);
-    // 末尾添加元素测试
-    push_back_batch_vector(vec, literalPtr(114514, int), 5);
-    // 修改元素测试
-    set_vector(vec, 0, literalPtr(1919810, int));
-    set_vector(vec, 1, literalPtr(721, int));
-    print_vector(vec, ' ', '\n');
-    // 取出元素测试
-    tmp = pop_back_vector(vec);
-    print_gvar(tmp);
-    putchar('\n');
-    destroy_gvar(tmp);
-    // 删除元素测试
-    del_item_vector(vec, 0);
-    print_vector(vec, ' ', '\n');
+int main() {
+    // 创建一个初始容量为 10，初始大小为 5 的 Vector，元素类型为 int
+    int initial_data = 5;
+    Vector* vec = create_vector(5, 10, sizeof(int), &initial_data);
+    assert(vec != NULL);
 
+    // 打印 Vector 的初始状态
+    printf("Initial vector: ");
+    print_vector(vec, int, "%d", ' ', '\n');
+
+    // 向 Vector 中添加一些元素
+    for (int i = 0; i < 10; i++) {
+        int* new_data = malloc(sizeof(int));
+        *new_data = i;
+        push_back_vector(vec, new_data);
+    }
+
+    // 打印添加元素后的 Vector
+    printf("After adding elements: ");
+    print_vector(vec, int, "%d", ' ', '\n');
+
+    // 删除一些元素
+    for (int i = 0; i < 5; i++) {
+        del_back_vector(vec);
+    }
+
+    // 打印删除元素后的 Vector
+    printf("After deleting elements: ");
+    print_vector(vec, int, "%d", ' ', '\n');
+
+    // 销毁 Vector
     destroy_vector(vec);
-    putchar('\n');
-    // 浮点型 Vector 测试
-    vec = create_vector(FLOAT);
-    // 末尾添加元素测试
-    push_back_batch_vector(vec, literalPtr(114.514, float), 5);
-    print_vector(vec, ' ', '\n');
-    // 修改元素测试
-    set_vector(vec, 0, literalPtr(1919.810, float));
-    set_vector(vec, 1, literalPtr(7.21, float));
-    set_vector(vec, 2, literalPtr(11.4514, float));
-    set_vector(vec, 3, literalPtr(1145.14, float));
-    print_vector(vec, ' ', '\n');
 
-    destroy_vector(vec);
-}
-
-int main(void){
-    test();
-    return EXIT_SUCCESS;
+    return 0;
 }
