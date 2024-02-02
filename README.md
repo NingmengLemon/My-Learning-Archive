@@ -1,6 +1,6 @@
-# My-Programming-Learning-Archive
-### 我的编程学习存档
-如题，只是个臭学程序的人的学习存档罢了
+# My-Learning-Archive
+### 我的学习存档
+如题
 
 包含笔记、练习程序等，各种杂项也有
 
