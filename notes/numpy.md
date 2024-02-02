@@ -1,3 +1,7 @@
+# 是 NumPy 来了噢!
+
+信息来源: NumPy 官网 / 菜鸟教程
+
 ---
 
 ## NumPy 数组 `array`
