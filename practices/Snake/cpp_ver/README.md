@@ -1,7 +1,7 @@
 你说得对，但是这是我：
 
 - 第一个**真正**用C艹写出来的程序
-- 第一次用`Cmake`构建的项目 ~~，虽然`CMakeLists.txt`是四处借鉴拼出来的~~
+- 第一个用`Cmake`构建的项目 ~~，虽然`CMakeLists.txt`是四处借鉴拼出来的，虽然也写了`tasks.json`~~
 
 > 至于为什么说是“真正”，难道你觉得用几个`cin` `cout` `>>` `<<`和`using namespace std;`就算是写了C艹程序吗ww
 
