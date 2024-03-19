@@ -57,11 +57,17 @@ Game::Game(int w, int h) {
 
     width = w;
     height = h;
-    direction = DIRECTIONS.at(getRandom(0, DIRECTIONS.size() - 1));}
+    direction = DIRECTIONS.at(getRandom(0, DIRECTIONS.size() - 1));
+}
 
-void Game::start(void){
+bool Game::isAlive(void) { return alive; }
+std::string Game::getCauseOfDeath(void) { return causeOfDeath; }
+
+void Game::start(void) {
     if (initLength == 0) {
-        throw GameOver("Initial Health = 0 awa");
+        alive = false;
+        causeOfDeath = "initial length = 0";
+        return;
     }
     folded = initLength - 1;
     snake.push_back(GameObj(width / 2, height / 2, SNAKE, SNAKE_REPR, 0));
@@ -127,10 +133,9 @@ Coor Game::calcNextPos(Coor c, Direction d) {
     return new_coor;
 }
 
-GameOver::GameOver(const std::string &msg) : message(msg) {}
-const char *GameOver::what() const noexcept { return message.c_str(); }
-
 void Game::nextFrame(void) {
+    if (!alive)
+        return;
     Coor head_next_coor = calcNextPos(snake.front().getCoor(), direction);
     // 地图越界检查
     if (head_next_coor.x > width - 1)
@@ -147,8 +152,11 @@ void Game::nextFrame(void) {
         if (head_next_coor == obj->getCoor()) {
             // 判定死亡
             int healta = obj->getHealta();
-            if (snake.size() + healta < 1) {
-                throw GameOver("Game Over QwQ");
+            // int after_health = snake.size() + healta;
+            if (((int)snake.size() + healta) < 1) {
+                alive = false;
+                causeOfDeath = "crash into something...";
+                return;
             } else {
                 if (healta > 0) {
                     folded += healta;
@@ -174,9 +182,11 @@ void Game::nextFrame(void) {
     for (GameObj obj : snake) {
         if (head_next_coor == obj.getCoor()) {
             // 根据设置判定是断尾还是死亡
-            if (dieIfCrashSelf)
-                throw GameOver("Game Over QwQ");
-            else {
+            if (dieIfCrashSelf) {
+                alive = false;
+                causeOfDeath = "crash into self";
+                return;
+            } else {
                 crash_flag = true;
                 break;
             }

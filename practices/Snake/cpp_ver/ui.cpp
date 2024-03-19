@@ -142,7 +142,7 @@ int nextValue(int current, std::vector<int> options) {
     return options.at((index + 1) % (options.size()));
 }
 
-void menuLoop(KbInput &keyboard, Game &game) {
+bool menuLoop(KbInput &keyboard, Game &game) {
     printMenu_en();
     unsigned long long loop_counter = 0;
     while (true) {
@@ -155,10 +155,10 @@ void menuLoop(KbInput &keyboard, Game &game) {
             }
             switch (key) {
             case ' ':
-                return;
+                return true;
                 break;
             case 27:
-                throw GameOver("exit signal by user");
+                return false;
                 break;
             case '1':
                 game.dieIfCrashSelf ^= true;

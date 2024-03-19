@@ -15,6 +15,8 @@ void gameLoop(KbInput &keyboard, Game &game) {
     unsigned int frame_count = 0;
 
     while (true) {
+        if (!game.isAlive())
+            return;
         if (keyboard.keyPressed()) {
             auto key = keyboard.getKey();
             if (key == 224) { // 上下左右键与功能键需要读两次
@@ -55,8 +57,7 @@ void gameLoop(KbInput &keyboard, Game &game) {
                 delay = 200 * 1000;
                 break;
             case 27: // esc
-                throw GameOver("terminated by user");
-                break;
+                return;
             }
             flushKb(keyboard);
         }
@@ -84,28 +85,24 @@ void showNotice(KbInput &keyboard) {
 }
 
 int main(void) {
+
     prepare();
     auto keyboard = KbInput();
     showNotice(keyboard);
     while (true) {
         Game game = Game(40, 40);
-        try {
-            menuLoop(keyboard, game);
-        } catch (const GameOver &e) {
+        if (!menuLoop(keyboard, game)) {
             std::cout << eseq::screen::ClearScreen()
                       << "Thank you for playing...";
             usleep(2 * 1000 * 1000);
             return 0;
         }
-        try {
-            gameLoop(keyboard, game);
-        } catch (const GameOver &e) {
-            std::cout << eseq::cursor::MoveTo(
-                             game.getHeight() -
-                                 (std::string(e.what()).length() / 2),
-                             game.getWidth() / 2)
-                      << e.what();
-        }
+        gameLoop(keyboard, game);
+        std::cout << eseq::cursor::MoveTo(
+                         game.getHeight() / 2,
+                         game.getWidth() -
+                             (game.getCauseOfDeath().length() / 2))
+                  << game.getCauseOfDeath();
         std::cout << eseq::cursor::MoveTo(game.getHeight() + 1, 1)
                   << "Press any key to continue...";
         flushKb(keyboard);

@@ -14,7 +14,7 @@ void printTips(Game &game);
 void flushCin(void);
 void printMenu_en(void);
 void flushKb(KbInput &keyboard);
-void menuLoop(KbInput &keyboard, Game &game);
+bool menuLoop(KbInput &keyboard, Game &game);
 void printConfig(Game &game);
 std::string boolToString(bool b);
 int nextValue(int current, std::vector<int> options);

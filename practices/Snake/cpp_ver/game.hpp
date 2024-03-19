@@ -84,6 +84,8 @@ class Game {
     int getHeight(void);
     int getLength(void);
     Direction getDirection(void);
+    bool isAlive(void);
+    std::string getCauseOfDeath(void);
 
   private:
     // 除蛇蛇外的其他游戏对象
@@ -103,20 +105,13 @@ class Game {
     std::vector<GameObj> snake;
     Direction direction;
     int folded = 0;
+    bool alive = true;
+    std::string causeOfDeath = "user terminate";
     // 随机数操作
     int getRandom(int a, int b); // 生成随机数
     std::mt19937 gen;
     // 着色
     static std::string color(ObjectType type, std::string s);
-};
-
-class GameOver : public std::exception {
-  private:
-    std::string message;
-
-  public:
-    GameOver(const std::string &msg);
-    const char *what() const noexcept override;
 };
 
 #endif
