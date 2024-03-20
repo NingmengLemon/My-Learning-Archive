@@ -39,9 +39,27 @@ bool KbInput::keyPressed() {
 }
 
 char KbInput::getKey() {
+    termios oldt, newt;
     char ch;
+
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
     read(STDIN_FILENO, &ch, 1);
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+
     return ch;
 }
+
+
+// char KbInput::getKey() {
+//     char ch;
+//     read(STDIN_FILENO, &ch, 1);
+//     return ch;
+// }
 
 #endif
