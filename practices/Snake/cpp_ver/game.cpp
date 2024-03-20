@@ -266,28 +266,28 @@ void Game::operate(char key) {
     switch (key) {
     case 'W':
     case 'w':
-    case 72:
+    // case 72:
         if (direction != DOWN) {
             direction = UP;
         }
         break;
     case 'S':
     case 's':
-    case 80:
+    // case 80:
         if (direction != UP) {
             direction = DOWN;
         }
         break;
     case 'A':
     case 'a':
-    case 75:
+    // case 75:
         if (direction != RIGHT) {
             direction = LEFT;
         }
         break;
     case 'D':
     case 'd':
-    case 77:
+    // case 77:
         if (direction != LEFT) {
             direction = RIGHT;
         }

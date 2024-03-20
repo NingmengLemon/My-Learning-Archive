@@ -6,7 +6,7 @@
 #endif
 
 #include "./Eseq/eseq.hpp"
-#include "./KbInput/kbinput.hpp"
+#include "./Kbinput/kbinput.hpp"
 #include "./game.hpp"
 #include "./ui.hpp"
 #include <iostream>

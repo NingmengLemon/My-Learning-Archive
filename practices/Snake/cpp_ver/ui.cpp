@@ -150,14 +150,15 @@ bool menuLoop(KbInput &keyboard, Game &game) {
         if (keyboard.keyPressed()) {
             update_flag = true;
             auto key = keyboard.getKey();
-            if (key == 224) { // 上下左右键与功能键需要读两次
-                key = keyboard.getKey();
-            }
+            // if (key == 224) { // 上下左右键与功能键需要读两次
+            //     key = keyboard.getKey();
+            // }
             switch (key) {
             case ' ':
                 return true;
                 break;
             case 27:
+                flushKb(keyboard);
                 return false;
                 break;
             case '1':

@@ -17,7 +17,7 @@ KbInput::KbInput() { init(); }
 
 KbInput::~KbInput() { reset(); }
 
-void KbInput::setup() {
+void KbInput::init() {
     termios tty;
     tcgetattr(STDIN_FILENO, &tty);
     tty.c_lflag &= ~ICANON & ~ECHO;

@@ -9,6 +9,8 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
+
 #endif
 
 class KbInput {
