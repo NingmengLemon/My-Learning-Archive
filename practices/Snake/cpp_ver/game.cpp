@@ -296,7 +296,7 @@ void Game::operate(char key) {
 }
 
 std::vector<Coor> Game::getEmptyGrids(void) {
-    bool stage[height][width] = {};
+    std::vector<std::vector<bool>> stage(height, std::vector<bool>(width, false));
     std::vector<Coor> result;
     for (GameObj obj : snake) {
         Coor c = obj.getCoor();
