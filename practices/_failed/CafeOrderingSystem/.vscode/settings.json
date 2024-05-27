@@ -1,0 +1,17 @@
+{
+    "cmake.configureOnOpen": false,
+    "files.associations": {
+        "array": "c",
+        "compare": "c",
+        "functional": "c",
+        "ostream": "c",
+        "ranges": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "utility": "c",
+        "stdbool.h": "c",
+        "typeinfo": "c",
+        "system_error": "c",
+        "direct.h": "c"
+    }
+}
