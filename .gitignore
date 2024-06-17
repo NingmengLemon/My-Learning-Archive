@@ -1,0 +1,64 @@
+# Ignore compiled files
+*.o
+*.out
+
+# Ignore build directories
+build/
+bin/
+
+# Ignore Python cache files
+__pycache__/
+
+# Ignore generated documentation
+docs/
+
+# Ignore temporary files
+*.tmp
+
+# Ignore log files
+*.log
+
+# Ignore backup files
+*~
+
+# Ignore compiled executables
+*.exe
+
+# Ignore object files
+*.obj
+
+# Ignore generated files
+*.gen
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+
+# Ignore compiled libraries
+*.dll
+*.so
+*.dylib
+
+# Ignore package files
+*.tar.gz
+*.zip
+
+# Ignore database files
+*.db
+*.sqlite
+
+# Ignore configuration files
+*.config
+*.cfg
+
+# Ignore environment files
+.env
+
+# Ignore editor backup files
+*.bak
+*.swp
+*.swo
