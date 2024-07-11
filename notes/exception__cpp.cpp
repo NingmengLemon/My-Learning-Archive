@@ -25,6 +25,7 @@ int main(void) {
         std::cout << "I caught a neko!" << std::endl;
         std::cerr << e.what() << std::endl;
     } catch (...) {
+        // 使用 ... 捕捉任意异常
         std::cerr << "unknown exception nyann!!" << std::endl;
     }
 

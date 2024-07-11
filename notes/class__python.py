@@ -12,15 +12,18 @@ class Human(object): # 在py3中不写父类（连着括号都不写）就默认
     def set(self): # 未标记为私有
         pass
     
-    # 没有指定 @classmethod，是实例方法，需要等类实例化之后再调用；如果在实例化前调用的话需要手动传入 self
-    def _process(self): # 标记为私有，但外界仍然能够访问
+    # 没有指定 @classmethod，是实例方法，需要等类实例化之后再调用；
+    # 如果在实例化前调用的话需要手动传入 self
+    def _process(self): # 标记为私有，但其实外界仍然能够访问
         pass
     
-    @classmethod # 指定为类方法，绑定到的是类本身，操作的是类属性，通过隐式或显式传入的cls来操作
+    # 指定为类方法，绑定到的是类本身，操作的是类属性，通过隐式或显式传入的cls来操作
+    @classmethod 
     def handle(cls, data):
         cls.a = data.a
         
-    @staticmethod # 指定为静态方法，不与任何对象绑定，只是“碰巧”定义在了类中，与普通函数没有什么区别。
+    # 指定为静态方法，不与任何东西绑定，只是“碰巧”定义在了这里。普通函数没有什么区别。
+    @staticmethod 
     def who_asked_you(person):
         pass
 
