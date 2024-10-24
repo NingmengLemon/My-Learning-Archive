@@ -175,7 +175,7 @@ class Professor extends Person {
 class Example {
     somePublicMethod() {
         this.#somePrivateMethod();
-        // 连着变量名一起的所以调用的时候也要带上
+        // 调用的时候也要带上大概
     }
 
     #somePrivateMethod() {

@@ -1,0 +1,25 @@
+.highlight {
+    color: white;
+    background-color: black;
+    padding: 10px;
+    width: 250px;
+    text-align: center;
+}
+html {
+    font-family: sans-serif;
+}
+ul {
+    width: 32em;
+    list-style-type: none;
+}
+li {
+    border: 0.1em solid #b4fffa;
+    background-color: #9ddeff;
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 0.4em;
+}
+.addnum {
+    margin: 0.5em;
+    font-size: large;
+}
